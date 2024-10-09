@@ -1,44 +1,43 @@
+const fs = require('fs');
+
 // Reading files synchronously
 
-const fs = require('node:fs');
-
-function countStudents(path) {
-  try {
-    // Read file sycnhronously
-    const data = fs.readFileSync(path, { encoding: 'utf8' });
-
-    // Split the file by new line character
-    const students = data.split('\n').filter((student) => student.trim() !== '');
-
-    // Remove first line
-    students.shift();
-
-    // initialize variables for counting students
-    const studentCount = students.length;
-    const studentFields = {};
-
-    // Count the number of students in the file
-    students.forEach((student) => {
-      const [firstname, , , field] = student.split(',');
-
-      if (!studentFields[field]) {
-        studentFields[field] = [];
-      }
-      studentFields[field].push(firstname);
-    });
-
-    // print the number of students to stdout
-    console.log(`Number of students: ${studentCount}`);
-
-    // print the number of students per field to stdout
-    for (const field in studentFields) {
-      if (Object.prototype.hasOwnProperty.call(studentFields, field)) {
-        console.log(`Number of students in ${field}: ${studentFields[field].length}. List: ${studentFields[field].join(', ')}`);
-      }
-    }
-  } catch (error) {
+const countStudents = (dataPath) => {
+  if (!fs.existsSync(dataPath)) {
     throw new Error('Cannot load the database');
   }
-}
+  if (!fs.statSync(dataPath).isFile()) {
+    throw new Error('Cannot load the database');
+  }
+  const fileLines = fs
+    .readFileSync(dataPath, 'utf-8')
+    .toString('utf-8')
+    .trim()
+    .split('\n');
+  const studentGroups = {};
+  const dbFieldNames = fileLines[0].split(',');
+  const studentPropNames = dbFieldNames.slice(0, dbFieldNames.length - 1);
+
+  for (const line of fileLines.slice(1)) {
+    const studentRecord = line.split(',');
+    const studentPropValues = studentRecord.slice(0, studentRecord.length - 1);
+    const field = studentRecord[studentRecord.length - 1];
+    if (!Object.keys(studentGroups).includes(field)) {
+      studentGroups[field] = [];
+    }
+    const studentEntries = studentPropNames
+      .map((propName, idx) => [propName, studentPropValues[idx]]);
+    studentGroups[field].push(Object.fromEntries(studentEntries));
+  }
+
+  const totalStudents = Object
+    .values(studentGroups)
+    .reduce((pre, cur) => (pre || []).length + cur.length);
+  console.log(`Number of students: ${totalStudents}`);
+  for (const [field, group] of Object.entries(studentGroups)) {
+    const studentNames = group.map((student) => student.firstname).join(', ');
+    console.log(`Number of students in ${field}: ${group.length}. List: ${studentNames}`);
+  }
+};
 
 module.exports = countStudents;
