@@ -1,17 +1,13 @@
 // A program that displays the message "Welcome to Holberton School, what is your name?"
 
-const readline = require('node:readline');
+const message = 'Welcome to Holberton School, what is your name?\n';
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
+process.stdout.write(message);
+
+process.stdin.on('data', (input) => {
+  process.stdout.write(`Your name is: ${input}`);
 });
 
-rl.question('Welcome to Holberton School, what is your name?\n', (userInput) => {
-  console.log(`Your name is: ${userInput}`);
-  rl.close();
-});
-
-process.stdin.on('end', () => {
-  console.log('This important software is now closing\n');
+process.on('exit', () => {
+  process.stdout.write('This important software is now closing\n');
 });
