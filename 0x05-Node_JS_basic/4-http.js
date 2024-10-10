@@ -6,12 +6,18 @@ const hostname = '127.0.0.1';
 const port = 1245;
 
 // create a server object
-const app = createServer((req, res) => {
-  res.writeHead(200, { 'Content-Type': 'text/plain' });
-  res.end('Hello Holberton School!');
+const app = createServer((_, res) => {
+  const response = 'Hello Holberton School!';
+
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/plain');
+  res.end(response);
+  res.setHeader('Content-Length', response.length);
 });
 
 // listen to the server
 app.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
+  process.stdout.write(`Server running at http://${hostname}:${port}\n`);
 });
+
+module.exports = app;
