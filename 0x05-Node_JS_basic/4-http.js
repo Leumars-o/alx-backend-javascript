@@ -11,9 +11,8 @@ app.on('request', (_, res) => {
   const response = 'Hello Holberton School!';
 
   res.setHeader('Content-Type', 'text/plain');
-  res.statusCode = 200;
-  res.end(response);
   res.setHeader('Content-Length', response.length);
+  res.statusCode = 200;
   res.write(Buffer.from(response));
 });
 
