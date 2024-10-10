@@ -13,7 +13,7 @@ const app = createServer((_, res) => {
   res.statusCode = 200;
   res.end(response);
   res.setHeader('Content-Length', response.length);
-  res.write(response);
+  res.write(Buffer.from(response));
 });
 
 // listen to the server
