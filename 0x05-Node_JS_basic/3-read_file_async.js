@@ -30,7 +30,7 @@ const countStudents = (path) => new Promise((resolve, reject) => {
 
       const totalStudents = Object
         .values(studentGroups)
-        .reduce((acc, students) => (acc || []).lenght + students.length);
+        .reduce((acc, cur) => (acc || []).length + cur.length);
       console.log(`Number of students: ${totalStudents}`);
       for (const [group, students] of Object.entries(studentGroups)) {
         const studentList = students.map((student) => student.firstname).join(', ');
