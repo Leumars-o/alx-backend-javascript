@@ -34,7 +34,7 @@ const countStudents = (path) => new Promise((resolve, reject) => {
       console.log(`Number of students: ${totalStudents}`);
       for (const [group, students] of Object.entries(studentGroups)) {
         const studentList = students.map((student) => student.firstname).join(', ');
-        console.log(`Number of students in group ${group}: ${students.length}. List: ${studentList}`);
+        console.log(`Number of students in ${group}: ${students.length}. List: ${studentList}`);
       }
       resolve(true);
     }
