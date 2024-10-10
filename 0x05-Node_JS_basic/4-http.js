@@ -1,12 +1,13 @@
 // Creating a small HTTP server using Node HTTP module
-const { createServer } = require('http');
+const http = require('http');
 
 // Set hostname and Port
 const hostname = 'localhost';
 const port = 1245;
+const app = http.createServer();
 
 // create a server object
-const app = createServer((_, res) => {
+app.on('request', (_, res) => {
   const response = 'Hello Holberton School!';
 
   res.setHeader('Content-Type', 'text/plain');
