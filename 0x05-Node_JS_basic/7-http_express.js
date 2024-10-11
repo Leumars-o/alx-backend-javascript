@@ -40,7 +40,7 @@ const countStudents = (path) => new Promise((resolve, reject) => {
         report.push(`Number of students: ${totalStudents}`);
 
         for (const [field, group] of Object.entries(groups)) {
-          report.push([`Number of students in ${field}: ${group.length}.`, 'List:', group.map((student) => student.firstname).join(', ')].join());
+          report.push([`Number of students in ${field}: ${group.length}. List: ${group.map((student) => student.firstname).join(', ')}`].join());
         }
         resolve(report.join('\n'));
       }
