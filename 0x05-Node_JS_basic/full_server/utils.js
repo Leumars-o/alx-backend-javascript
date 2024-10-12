@@ -7,7 +7,7 @@ const readDatabase = (path) => new Promise((resovle, reject) => {
   if (path) {
     fs.readFile(path, (err, data) => {
       if (err) {
-        reject(new Error('Error reading file'));
+        reject(new Error('Cannot load the database'));
       }
       if (data) {
         const lines = data
