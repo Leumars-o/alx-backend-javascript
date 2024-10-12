@@ -2,7 +2,7 @@ import fs from 'fs';
 
 const readDatabase = (path) => new Promise((resovle, reject) => {
   if (!path) {
-    reject(new Error('Path is required'));
+    reject(new Error('Cannot load the database'));
   }
   if (path) {
     fs.readFile(path, (err, data) => {
